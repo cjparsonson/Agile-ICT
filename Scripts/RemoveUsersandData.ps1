@@ -9,7 +9,7 @@ $Student_Profiles = "D:\users\profiles\students"
 $student_list = "C:\Users\administrator.SCH5202\removeStudents.txt"
 
 #Set Student OU location in a variable
-$studentOU = Get-ADOrganizationalUnit -Filter * | Where-Object -FilterScript {$_.Name -eq 'Students'}
+$studentOU = Get-ADOrganizationalUnit -Filter * | Where-Object -FilterScript {$_.Name -like 'Students'}
 
 # Create list of Student objects
 $studentObj = foreach ($student in $student_list) {
