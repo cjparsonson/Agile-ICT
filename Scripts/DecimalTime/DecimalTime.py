@@ -22,7 +22,7 @@ while Loop_Status:
 
     Answer = input("Type 'Y' to convert again: ")
     print(Answer)
-    
+
     if Answer.upper() != 'Y':
         Loop_Status = False
     else:
