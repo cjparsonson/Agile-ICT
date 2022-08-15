@@ -4,7 +4,7 @@
 
 
 # Set CSV path
-$CSVPath = 'C:\Users\chris.parsonson\OneDrive - Agile ICT\Documents\Agile-ICT\Scripts\UserCreation\NewStaffUserCSV.csv'
+$CSVPath = 'C:\UserCreate\NewStaffUserCSV.csv'
 
 # Load CSV into variable
 $UsersFromCSV = Import-Csv $CSVPath
@@ -13,6 +13,9 @@ $UsersFromCSV
 # Get DomainSuffix then use this to build the User Principal Name 
 $DomainSuffix = (Get-CimInstance CIM_Computersystem).Domain
 $PrincipalNameSuffix = -join ("@",$DomainSuffix) 
+
+# Set staff homes location
+$StaffHomeDir = "\\2230FS01\Staff\"
 
 # Iterate Users
 foreach ($usr in $UsersFromCSV) {
@@ -34,8 +37,31 @@ foreach ($usr in $UsersFromCSV) {
     New-ADUser -Path $usr.OU -Name $UserFullname -Surname $usr.LastName -SamAccountName $usr.UserName `
         -AccountPassword ($usr.Password | ConvertTo-SecureString -AsPlainText -Force) `
         -ChangePasswordAtLogon $true -Description $usr.Description -DisplayName $UserFullname -Enabled $true `
-        -UserPrincipalName $UserPrincipalName   
+        -UserPrincipalName $UserPrincipalName
+    
+    # Add groups    
+    if ($usr.OU -match '^OU=Curriculum') {
+        Add-ADPrincipalGroupMembership -Identity $usr.UserName -MemberOf 'Staff'            
+    } 
+    # Todo - add other group/OU combinations 
 
+    # Add home folders and link them 
+    if ($usr.OU -match '^OU=Curriculum') {
+        $homepath = -join ($StaffHomeDir, $usr.UserName)        
+        Set-ADUser -Identity $usr.UserName -HomeDirectory "$homepath\Documents" -HomeDrive Z 
+        New-Item -Path $homepath -ItemType Directory
+        # Add permissions
+        $acl = Get-Acl $homepath
+        $adusr = Get-ADUser -Identity $usr.UserName
+        $filesystemrights = [System.Security.AccessControl.FileSystemRights]"Modify"
+        $accesscontroltype = [System.Security.AccessControl.AccessControlType]::Allow 
+        $inheritanceflags = [System.Security.AccessControl.InheritanceFlags]"ContainerInherit, ObjectInherit"
+        $propagationflags = [System.Security.AccessControl.PropagationFlags]"InheritOnly"
+        $accessrule = New-Object System.Security.AccessControl.FileSystemAccessRule ($adusr.SID, $filesystemrights, $inheritanceflags, $propagationflags, $accesscontroltype)
+        $acl.SetAccessRule($accessrule)
+        
+        Set-Acl -Path $homepath -AclObject $acl
+    }   
 }
 
 
