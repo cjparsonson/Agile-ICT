@@ -16,6 +16,7 @@ $PrincipalNameSuffix = -join ("@",$DomainSuffix)
 
 # Set staff homes location
 $StaffHomeDir = "\\2230FS01\Staff\"
+$ClassesHomeDir = "\\2230fs01\Learners\Classes\"
 
 # Iterate Users
 foreach ($usr in $UsersFromCSV) {
@@ -43,9 +44,14 @@ foreach ($usr in $UsersFromCSV) {
     if ($usr.OU -match '^OU=Curriculum') {
         Add-ADPrincipalGroupMembership -Identity $usr.UserName -MemberOf 'Staff'            
     } 
+
+    if ($usr.OU -match 'OU=Classes') {
+        Add-ADPrincipalGroupMembership -Identity $usr.UserName -MemberOf 'Classes'            
+    } 
     # Todo - add other group/OU combinations 
 
     # Add home folders and link them 
+    # Staff
     if ($usr.OU -match '^OU=Curriculum') {
         $homepath = -join ($StaffHomeDir, $usr.UserName)        
         Set-ADUser -Identity $usr.UserName -HomeDirectory "$homepath\Documents" -HomeDrive Z 
@@ -61,7 +67,25 @@ foreach ($usr in $UsersFromCSV) {
         $acl.SetAccessRule($accessrule)
         
         Set-Acl -Path $homepath -AclObject $acl
-    }   
+    }
+    
+    # Classes
+    if ($usr.OU -match 'OU=Classes') {
+        $homepath = -join ($ClassesHomeDir, $usr.UserName)        
+        Set-ADUser -Identity $usr.UserName -HomeDirectory "$homepath\Documents" -HomeDrive Z 
+        New-Item -Path $homepath -ItemType Directory
+        # Add permissions
+        $acl = Get-Acl $homepath
+        $adusr = Get-ADUser -Identity $usr.UserName
+        $filesystemrights = [System.Security.AccessControl.FileSystemRights]"Modify"
+        $accesscontroltype = [System.Security.AccessControl.AccessControlType]::Allow 
+        $inheritanceflags = [System.Security.AccessControl.InheritanceFlags]"ContainerInherit, ObjectInherit"
+        $propagationflags = [System.Security.AccessControl.PropagationFlags]"InheritOnly"
+        $accessrule = New-Object System.Security.AccessControl.FileSystemAccessRule ($adusr.SID, $filesystemrights, $inheritanceflags, $propagationflags, $accesscontroltype)
+        $acl.SetAccessRule($accessrule)
+        
+        Set-Acl -Path $homepath -AclObject $acl
+    }
 }
 
 
