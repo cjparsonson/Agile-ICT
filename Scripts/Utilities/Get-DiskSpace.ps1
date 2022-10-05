@@ -1,6 +1,10 @@
-# 
+# Get disks, size and freespace.
 
-Get-CimInstance -ClassName Win32_LogicalDisk -ComputerName localhost `
+param (
+    $ComputerName = 'LocalHost'
+)
+
+Get-CimInstance -ClassName Win32_LogicalDisk -ComputerName $ComputerName `
 -Filter "drivetype=3" | Sort-Object -Property DeviceID |
 Format-Table -Property DeviceID,
 @{label='FreeSpace(MB)';expression={$_.FreeSpace / 1MB -as [int]}},
