@@ -15,8 +15,9 @@ Get-DiskSpace -ComputerName SRV01 -DriveType 3
 
 [CmdletBinding()]
 param (
-    $ComputerName = 'LocalHost',
-    $DriveType = 3
+    [Parameter(Mandatory=$true,HelpMessage="Enter a computer name to query")]
+    [string]$ComputerName,
+    [int]$DriveType = 3
 )
 
 Get-CimInstance -ClassName Win32_LogicalDisk -ComputerName $ComputerName `
