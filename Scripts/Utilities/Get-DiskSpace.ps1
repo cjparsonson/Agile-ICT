@@ -17,6 +17,8 @@ Get-DiskSpace -ComputerName SRV01 -DriveType 3
 param (
     [Parameter(Mandatory=$true,HelpMessage="Enter a computer name to query")]
     [string]$ComputerName,
+
+    [ValidateSet(2,3,4)]
     [int]$DriveType = 3
 )
 
