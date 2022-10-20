@@ -8,3 +8,7 @@ certutil -enterprise -addstore -f "root" "\\%userdomain%\dfs$\Scripts\HCCCertDep
 
 certutil -enterprise -addstore -f "root" "\\%userdomain%\dfs$\Scripts\HCCCertDeploy\3334561879.crt"
 
+certutil -enterprise -addstore -f "root" "\\%userdomain%\dfs$\Scripts\HCCCertDeploy\9314791.crt"
+
+certutil -enterprise -addstore -f "root" "\\%userdomain%\dfs$\Scripts\HCCCertDeploy\3958242236.crt"
+
