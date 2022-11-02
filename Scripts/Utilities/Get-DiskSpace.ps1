@@ -22,6 +22,8 @@ param (
     [int]$DriveType = 3
 )
 
+Write-Verbose "Querying $ComputerName"
+Write-Verbose "Looking for Drive Type $DriveType"
 Get-CimInstance -ClassName Win32_LogicalDisk -ComputerName $ComputerName `
  -Filter "drivetype=$DriveType" |
  Sort-Object -Property DeviceID |
@@ -29,3 +31,4 @@ Select-Object -Property DeviceID,
     @{label='FreeSpace(MB)';expression={$_.FreeSpace / 1MB -as [int]}},
     @{label='Size(GB)';expression={$_.Size / 1GB -as [int]}},
     @{label='%Free';expression={$_.FreeSpace / $_.Size * 100 -as [int]}}
+Write-Verbose "Finished"
