@@ -20,6 +20,6 @@ param (
 Write-Verbose "Querying hosname $ComputerName"
 Write-Verbose "Querying adapters"
 Get-CimInstance win32_networkadapter -ComputerName $ComputerName |
-where { $_.PhysicalAdapter } |
-select MACAddress,AdapterType,DeviceID,Name,Speed,NetConnectionID
+Where-Object { $_.PhysicalAdapter } |
+Select-Object MACAddress,AdapterType,DeviceID,Name,Speed,NetConnectionID
 Write-Verbose "Finished"
