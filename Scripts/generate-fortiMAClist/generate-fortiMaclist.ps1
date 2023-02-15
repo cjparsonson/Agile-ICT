@@ -41,7 +41,7 @@ $MACString = $MACString.TrimEnd()
 # Build script framework object
 $ScriptObject = [PSCustomObject]@{
     Header = "config firewall address`n`tedit `"Staff - device - MAC Addresses`""
-    Attributes = "`t`tunset color"
+    Attributes = "`t`tconfig dynamic_mapping`n`t`tedit `"St_Lawrence_CE_Primary_850-3001`"-`"root`"`n`t`tset associated-interface `"any`"`n`t`tunset color"
     MACList = "`t`tset macaddr $MACString"
     Footer = "`tnext"
     Close = "end" 
