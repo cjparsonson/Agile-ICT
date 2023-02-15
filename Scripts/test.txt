@@ -1,0 +1,6 @@
+config firewall address
+	edit "Staff - device - MAC Addresses"
+		unset color
+		set macaddr "" "5c:f7:e6:4a:13:cb" "5c:f7:e6:4b:3e:9f" "5c:f7:e6:48:df:ae" "5c:f7:e6:74:73:3a" "5c:f7:e6:75:67:25" "5c:f7:e6:53:1a:55" "5c:f7:e6:49:74:09"
+	next
+end

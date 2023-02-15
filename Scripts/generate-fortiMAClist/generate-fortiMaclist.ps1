@@ -4,9 +4,9 @@ generate-fortiMAClist takes a list of MAC addresses and generates a Fortigate CL
 .DESCRIPTION
 Takes a .txt list of MAC addresses and converts them to Fortigate CLI. 
 .PARAMETER Path
-The filepath of the MAC list .txt file. 
+The filepath of the MAC list .txt or .csv file. 
 .EXAMPLE
-generate-fortiMAClist -Path .\testLIST.txt 
+generate-fortiMAClist -Path .\Devices.csv 
 #>
 
 [CmdletBinding()]
@@ -14,20 +14,28 @@ param (
     # MAC list Filepath 
     [Parameter(Mandatory=$true, HelpMessage="Please specify filepath of MAC list.")]
     [string]
-    $Path
+    $Path 
 )
 
 # Get contents of MAC list
-$MAClist = Get-Content -Path $Path
-$MACString = ""
+$Content = Get-Content -Path $Path
+[string]$MACString = [String]::Empty
 
 
 Write-Output "Processing MAC address list`n"
 # Build MAC address string
-foreach ($MAC in $MAClist) {
-    $MACString += "`"$MAC`" "
+foreach ($line in $Content) {
+    $match = $line | Select-String -Pattern "..:..:..:..:..:.."
+    $MAC = $match.Matches.Value
+    if ($MAC -ne "")
+    {  
+        $MACString += "`"$MAC`" "
+    } 
+        
 }
 # Trim trailing whitespace
+
+$MACString = $MACString -replace '("")', '' 
 $MACString = $MACString.TrimEnd()
 
 # Build script framework object
