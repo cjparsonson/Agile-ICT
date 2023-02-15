@@ -21,10 +21,14 @@ param (
 $MAClist = Get-Content -Path $Path
 $MACString = ""
 
+
+Write-Output "Processing MAC address list`n"
 # Build MAC address string
 foreach ($MAC in $MAClist) {
     $MACString += "`"$MAC`" "
 }
+# Trim trailing whitespace
+$MACString = $MACString.TrimEnd()
 
 # Build script framework object
 $ScriptObject = [PSCustomObject]@{
@@ -35,12 +39,21 @@ $ScriptObject = [PSCustomObject]@{
     Close = "end" 
 }
 
-
+Write-Warning "Building CLI Script`n"
+# Display preview
 Write-Output $ScriptObject.Header
 Write-Output $ScriptObject.Attributes
 Write-Output $ScriptObject.MACList
 Write-Output $ScriptObject.Footer
 Write-Output $ScriptObject.Close
 
+Write-Output "`nPress any key to write to file"
+Read-Host
 
+Write-Warning "Writing to file..."
+# Write to file
+foreach ($property in $ScriptObject.psobject.Properties) {
+    $property.value | Out-File -FilePath .\test.txt -Append 
+}
 
+Write-Output "Output Fortigate CLI script to file complete"
