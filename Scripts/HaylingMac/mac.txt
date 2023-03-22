@@ -1,0 +1,210 @@
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E4-F8-9C-F1-F8-65   \Device\Tcpip_{217DD02D-C6C5-4795-92C0-ACF472EC8579}      
+A0-B3-CC-4C-8F-29   Media disconnected                                        
+00-15-5D-AD-57-D4   \Device\Tcpip_{2E8B28CE-E48B-4486-ADA3-60872E2A16CB}      
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E4-F8-9C-F1-F8-65   \Device\Tcpip_{217DD02D-C6C5-4795-92C0-ACF472EC8579}      
+A0-B3-CC-4C-8F-29   Media disconnected                                        
+00-15-5D-AD-57-D4   \Device\Tcpip_{2E8B28CE-E48B-4486-ADA3-60872E2A16CB}      
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E4-F8-9C-F1-F8-65   \Device\Tcpip_{217DD02D-C6C5-4795-92C0-ACF472EC8579}      
+A0-B3-CC-4C-8F-29   Media disconnected                                        
+00-15-5D-AD-57-D4   \Device\Tcpip_{2E8B28CE-E48B-4486-ADA3-60872E2A16CB}      
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E4-F8-9C-F1-F8-65   \Device\Tcpip_{217DD02D-C6C5-4795-92C0-ACF472EC8579}      
+A0-B3-CC-4C-8F-29   Media disconnected                                        
+00-15-5D-AD-57-D4   \Device\Tcpip_{2E8B28CE-E48B-4486-ADA3-60872E2A16CB}      
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C7-B4-56   Media disconnected                                        
+74-78-27-7F-C2-E4   Media disconnected                                        
+84-5C-F3-C7-B4-5A   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-32-FA-3C   Media disconnected                                        
+74-78-27-7B-B0-9D   Media disconnected                                        
+E0-2B-E9-32-FA-40   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+50-2F-9B-79-00-0E   Media disconnected                                        
+74-78-27-7F-C4-27   Media disconnected                                        
+50-2F-9B-79-00-12   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C6-7C-08   Media disconnected                                        
+74-78-27-7F-84-7B   Media disconnected                                        
+84-5C-F3-C6-7C-0C   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-80-9B   Media disconnected                                        
+74-78-27-7F-C2-E5   Media disconnected                                        
+84-5C-F3-C0-80-9F   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-42-7F   Media disconnected                                        
+74-78-27-7F-BF-56   Media disconnected                                        
+84-5C-F3-C0-42-83   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C6-75-D2   Media disconnected                                        
+74-78-27-7F-83-6D   Media disconnected                                        
+84-5C-F3-C6-75-D6   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+50-2F-9B-EB-BC-D9   Media disconnected                                        
+74-78-27-7B-B1-43   Media disconnected                                        
+50-2F-9B-EB-BC-DD   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-81-A4   Media disconnected                                        
+74-78-27-7F-84-81   Media disconnected                                        
+84-5C-F3-C0-81-A8   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-36-74-14   Media disconnected                                        
+74-78-27-7B-B0-98   Media disconnected                                        
+E0-2B-E9-36-74-18   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-32-F9-D3   Media disconnected                                        
+74-78-27-7B-AE-6E   Media disconnected                                        
+E0-2B-E9-32-F9-D7   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-34-56-1B   Media disconnected                                        
+74-78-27-7B-B1-4C   Media disconnected                                        
+E0-2B-E9-34-56-1F   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C7-2A-36   Media disconnected                                        
+74-78-27-7F-C2-2D   Media disconnected                                        
+84-5C-F3-C7-2A-3A   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+50-2F-9B-79-0F-09   Media disconnected                                        
+74-78-27-7F-83-98   Media disconnected                                        
+50-2F-9B-79-0F-0D   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C7-B4-42   Media disconnected                                        
+74-78-27-7F-C0-81   Media disconnected                                        
+84-5C-F3-C7-B4-46   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C7-B3-39   Media disconnected                                        
+74-78-27-7F-84-22   Media disconnected                                        
+84-5C-F3-C7-B3-3D   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C6-77-35   Media disconnected                                        
+74-78-27-7F-84-0B   Media disconnected                                        
+84-5C-F3-C6-77-39   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+50-2F-9B-77-0A-5B   Media disconnected                                        
+74-78-27-7F-BF-69   Media disconnected                                        
+50-2F-9B-77-0A-5F   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-1D-0E   Media disconnected                                        
+74-78-27-7F-85-6C   Media disconnected                                        
+84-5C-F3-C0-1D-12   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-34-3F-00   Media disconnected                                        
+74-78-27-75-5B-71   Media disconnected                                        
+E0-2B-E9-34-3F-04   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+50-2F-9B-EE-62-31   Media disconnected                                        
+74-78-27-75-5C-F9   Media disconnected                                        
+50-2F-9B-EE-62-35   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-39-75-47   Media disconnected                                        
+74-78-27-74-98-99   Media disconnected                                        
+E0-2B-E9-39-75-4B   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-36-66-31   Media disconnected                                        
+74-78-27-75-5B-FE   Media disconnected                                        
+E0-2B-E9-36-66-35   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-1B-A1   Media disconnected                                        
+74-78-27-7F-85-3A   Media disconnected                                        
+84-5C-F3-C0-1B-A5   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-39-8D-0C   Media disconnected                                        
+74-78-27-7B-AE-84   Media disconnected                                        
+E0-2B-E9-39-8D-10   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-33-4F-1E   Media disconnected                                        
+74-78-27-7B-AE-3E   Media disconnected                                        
+E0-2B-E9-33-4F-22   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-83-2A   Media disconnected                                        
+74-78-27-7F-82-F1   Media disconnected                                        
+84-5C-F3-C0-83-2E   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-36-74-0A   Media disconnected                                        
+74-78-27-7B-B1-33   Media disconnected                                        
+E0-2B-E9-36-74-0E   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+E0-2B-E9-32-D8-45   Media disconnected                                        
+74-78-27-7B-B2-10   Media disconnected                                        
+E0-2B-E9-32-D8-49   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C6-B6-AF   Media disconnected                                        
+74-78-27-7F-84-F8   Media disconnected                                        
+84-5C-F3-C6-B6-B3   Media disconnected                                        
+
+Physical Address    Transport Name                                            
+=================== ==========================================================
+84-5C-F3-C0-43-BF   Media disconnected                                        
+74-78-27-7F-82-0B   Media disconnected                                        
+84-5C-F3-C0-43-C3   Media disconnected                                        

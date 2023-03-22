@@ -13,3 +13,12 @@ config firewall address
 		set macaddr  "5c:f7:e6:4a:13:cb" "5c:f7:e6:4b:3e:9f" "5c:f7:e6:48:df:ae" "5c:f7:e6:74:73:3a" "5c:f7:e6:75:67:25" "5c:f7:e6:53:1a:55" "5c:f7:e6:49:74:09"
 	next
 end
+config firewall address
+	edit "Staff - device - MAC Addresses"
+		config dynamic_mapping
+		edit "St_Lawrence_CE_Primary_850-3001"-"root"
+		set associated-interface "any"
+		unset color
+		set macaddr  "18:3e:ef:66:b7:b5" "18:3e:ef:69:81:3d" "18:3e:ef:5e:c5:bc" "54:99:63:7a:21:47" "18:3e:ef:6f:7c:b7" "54:99:63:80:c1:6c" "18:3e:ef:6e:0a:25" "54:99:63:7d:0d:3c" "4c:ab:4f:16:34:60" "18:3e:ef:61:69:1c" "18:3e:ef:5e:72:ef" "54:99:63:86:3e:d2" "54:99:63:72:51:4f" "54:99:63:84:cc:cd" "18:3e:ef:61:24:ca" "18:3e:ef:5d:f4:fe" "18:3e:ef:63:4e:a6" "54:99:63:81:ae:44" "18:3e:ef:61:a5:af" "4c:ab:4f:27:75:22" "54:99:63:85:49:65" "4c:ab:4f:25:33:2b" "54:99:63:77:28:21" "54:99:63:7b:11:91" "4c:ab:4f:20:a1:90" "54:99:63:72:f6:46" "18:3e:ef:6f:67:54" "18:3e:ef:5e:ff:8c" "18:3e:ef:5b:97:50" "54:99:63:81:73:f2" "4c:ab:4f:24:c3:fb"
+	next
+end
