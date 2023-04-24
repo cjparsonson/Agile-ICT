@@ -1,24 +1,9 @@
 config firewall address
 	edit "Staff - device - MAC Addresses"
-		unset color
-		set macaddr  "5c:f7:e6:4a:13:cb" "5c:f7:e6:4b:3e:9f" "5c:f7:e6:48:df:ae" "5c:f7:e6:74:73:3a" "5c:f7:e6:75:67:25" "5c:f7:e6:53:1a:55" "5c:f7:e6:49:74:09"
-	next
-end
-config firewall address
-	edit "Staff - device - MAC Addresses"
 		config dynamic_mapping
-		edit "St_Lawrence_CE_Primary_850-3001"-"root"
+		edit "Holy_Trinity_Little_Marlow_Federation_825-3347"-"root"
 		set associated-interface "any"
 		unset color
-		set macaddr  "5c:f7:e6:4a:13:cb" "5c:f7:e6:4b:3e:9f" "5c:f7:e6:48:df:ae" "5c:f7:e6:74:73:3a" "5c:f7:e6:75:67:25" "5c:f7:e6:53:1a:55" "5c:f7:e6:49:74:09"
-	next
-end
-config firewall address
-	edit "Staff - device - MAC Addresses"
-		config dynamic_mapping
-		edit "St_Lawrence_CE_Primary_850-3001"-"root"
-		set associated-interface "any"
-		unset color
-		set macaddr  "18:3e:ef:66:b7:b5" "18:3e:ef:69:81:3d" "18:3e:ef:5e:c5:bc" "54:99:63:7a:21:47" "18:3e:ef:6f:7c:b7" "54:99:63:80:c1:6c" "18:3e:ef:6e:0a:25" "54:99:63:7d:0d:3c" "4c:ab:4f:16:34:60" "18:3e:ef:61:69:1c" "18:3e:ef:5e:72:ef" "54:99:63:86:3e:d2" "54:99:63:72:51:4f" "54:99:63:84:cc:cd" "18:3e:ef:61:24:ca" "18:3e:ef:5d:f4:fe" "18:3e:ef:63:4e:a6" "54:99:63:81:ae:44" "18:3e:ef:61:a5:af" "4c:ab:4f:27:75:22" "54:99:63:85:49:65" "4c:ab:4f:25:33:2b" "54:99:63:77:28:21" "54:99:63:7b:11:91" "4c:ab:4f:20:a1:90" "54:99:63:72:f6:46" "18:3e:ef:6f:67:54" "18:3e:ef:5e:ff:8c" "18:3e:ef:5b:97:50" "54:99:63:81:73:f2" "4c:ab:4f:24:c3:fb"
+		set macaddr "44:a8:fc:6b:53:55" "44:a8:fc:69:02:04" "78:e3:de:70:f6:86" "78:e3:de:65:31:62" "78:e3:de:73:13:a1" "78:e3:de:83:af:bf" "78:e3:de:89:4c:a0" "78:e3:de:7f:ee:9b" "78:e3:de:84:29:ba" "44:a8:fc:6c:2a:c1" "44:a8:fc:79:1b:75" "44:a8:fc:7a:f7:62" "78:e3:de:82:3b:48" "78:e3:de:82:28:e2" "78:e3:de:82:af:5d" "78:e3:de:88:35:e0" "78:e3:de:7d:b4:6d" "78:e3:de:81:8d:05" "78:e3:de:79:1a:23" "6c:19:c0:4c:ec:ef" "6c:19:c0:35:6e:14" "34:31:8f:ce:ea:a5" "34:31:8f:c0:79:24" "34:31:8f:ce:e0:b0" "a0:4e:a7:e0:42:30" "6c:19:c0:31:78:e4" "6c:19:c0:4c:e8:f3" "6c:19:c0:3e:59:da" "34:31:8f:cd:a5:dc"
 	next
 end

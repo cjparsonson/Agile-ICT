@@ -1,4 +1,4 @@
-$content = Get-Content .\generate-fortiMAClist\Devices.csv
+$content = Get-Content ".\DevicesHT.csv"
 $MAClist = @()
 
 foreach ($line in $content) {
