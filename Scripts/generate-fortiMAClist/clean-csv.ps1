@@ -1,4 +1,4 @@
-$content = Get-Content ".\DevicesHT.csv"
+$content = Get-Content ".\DevicesOJS.csv"
 $MAClist = @()
 
 foreach ($line in $content) {
