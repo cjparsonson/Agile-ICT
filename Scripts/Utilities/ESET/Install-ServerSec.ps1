@@ -67,8 +67,8 @@ try {
     $agentMSIpath = $agentPath + "\" + $latest
     $agentMSI = Get-ChildItem -Path $agentMSIpath -Filter *.msi
     Write-Warning "Agent MSI: $agentMSI"
-    $agentMSIpath = $agentMSIpath + "\" + $agentMSI
-    Write-Output "Agent MSI path: $agentMSIpath"
+    $agentMSIpathFull = $agentMSIpath + "\" + $agentMSI
+    Write-Output "Agent MSI path: $agentMSIpathFull"
 
     # Server
     Write-Warning "Searching for latest MSI...."
@@ -78,12 +78,23 @@ try {
     $serverMSIpath = $serverPath + "\" + $latest
     $serverMSI = Get-ChildItem -Path $serverMSIpath -Filter *.msi
     Write-Warning "Server MSI: $serverMSI"
-    $serverMSIpath = $serverMSIpath + "\" + $serverMSI
-    Write-Output "Server MSI path: $serverMSIpath"
+    $serverMSIpathFull = $serverMSIpath + "\" + $serverMSI
+    Write-Output "Server MSI path: $serverMSIpathFull"
 }
 catch {
     Write-Warning "Failed to find MSI paths, exiting"
     exit
+}
+
+# Test for agent config file
+Write-Warning "Searching for agent config file...."
+if (-not(Test-Path "$agentMSIpath\install_config.ini")) {
+    Write-Warning "Agent config file not found, exiting"
+    Write-Output "Please copy the config file to the same location as the MSI, then press enter to continue"
+    Read-Host
+}
+else {
+    Write-Output "Agent config file found, continuing"
 }
 
 # Cleanup old files
@@ -119,7 +130,7 @@ else {
 # Install Agent
 Write-Warning "Installing ESET Agent...."
 try {
-    Start-Process -FilePath msiexec.exe -ArgumentList "/i $agentMSIpath /qn /norestart" -Wait -PassThru
+    Start-Process -FilePath msiexec.exe -ArgumentList "/i $agentMSIpathFull /qn /norestart" -Wait -PassThru
 }
 catch {
     Write-Warning "Failed to install ESET Agent, exiting"
@@ -129,7 +140,7 @@ catch {
 # Install Server
 Write-Warning "Installing ESET Server...."
 try {
-    Start-Process -FilePath msiexec.exe -ArgumentList "/i $serverMSIpath /qn /norestart" -Wait -PassThru
+    Start-Process -FilePath msiexec.exe -ArgumentList "/i $serverMSIpathFull /qn /norestart" -Wait -PassThru
 }
 catch {
     Write-Warning "Failed to install ESET Server, exiting"
