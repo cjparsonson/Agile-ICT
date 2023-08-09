@@ -6,6 +6,8 @@
     It will attempt to find the latest MSI from the domain controller.
     Please make sure you have added the MSIs and are using standard paths.
     Please also copy in the config files to the same location as the MSIs.
+    .PARAMETER domainController
+    The domain controller hostname for path building. Optional.
     .INPUTS
     None
     .OUTPUTS
@@ -14,24 +16,36 @@
     ./Install-ServerSec.ps1
 #>
 
+param (
+    [Parameter(Mandatory=$false)]
+    [string]$domainController
+)
+
 # Set static paths
 $esetPFPath = "C:\Program Files\ESET\ESET Security\"
 $esetPDPath = "C:\ProgramData\ESET\ESET Security\"
 $agentStub = "Core\ESET\Agent"
-$serverStub = "Core\ESET\Server"
+$serverStub = "Core\ESET\Server Security"
+$serverStub2 = "Core\ESET\Server"
 
 
-# Build up path to MSI
-try {
-    $domainController = Get-ADDomainController | Select-Object -ExpandProperty Name
+if ($domainController) {
+    Write-Output "Domain Controller Parameter Set: $domainController"
 }
-catch {
-    Write-Warning "No domain controller found, attempting to build path"
-    $hostname = $env:COMPUTERNAME
-    # Get the domain prefix
-    $hostname -match '^\d{4}' | Out-Null
-    $domainPrefix = $Matches.0
-    $domainController = $domainPrefix+"DC01"
+else {
+
+    # Build up path to MSI
+    try {
+        $domainController = Get-ADDomainController | Select-Object -ExpandProperty Name
+    }
+    catch {
+        Write-Warning "No domain controller found, attempting to build path"
+        $hostname = $env:COMPUTERNAME
+        # Get the domain prefix
+        $hostname -match '^\d{4}' | Out-Null
+        $domainPrefix = $Matches.0
+        $domainController = $domainPrefix+"DC01"
+    }
 }
 
 # Validate
@@ -47,7 +61,13 @@ else {
 Write-Warning "Building paths...."
 try {
     $agentPath = "\\$domainController\mansoft$\$agentStub"
-    $serverPath = "\\$domainController\mansoft$\$serverStub"
+    if (Test-Path "\\$domainController\mansoft$\$serverStub") {
+        $serverPath = "\\$domainController\mansoft$\$serverStub"
+    }
+    else {
+        $serverPath = "\\$domainController\mansoft$\$serverStub2"
+    }
+
 }
 catch {
     Write-Warning "Failed to build paths, exiting"
@@ -138,9 +158,10 @@ catch {
 }
 
 # Install Server
-Write-Warning "Installing ESET Server...."
+Write-Warning "Installing ESET Server Security...."
+$arguments = "/i `"$serverMSIpathFull`" /qn /norestart"
 try {
-    Start-Process -FilePath msiexec.exe -ArgumentList "/i $serverMSIpathFull /qn /norestart" -Wait -PassThru
+    Start-Process -FilePath "msiexec.exe" -ArgumentList $arguments  -Wait -PassThru
 }
 catch {
     Write-Warning "Failed to install ESET Server, exiting"
