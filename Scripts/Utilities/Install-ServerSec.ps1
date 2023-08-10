@@ -26,52 +26,6 @@ param (
     [bool]$oldPathFormat=$false
 )
 
-# MSI version function
-function Get-MSIVersion {
-    <#
-        .SYNOPSIS
-        Gets the version of an MSI file using COM
-        .DESCRIPTION
-        This function will get the version of an MSI file using COM.
-        .PARAMETER MSIPATH
-        The path to the MSI file.
-        .INPUTS
-        None
-        .OUTPUTS
-        returns the version of the MSI file. string handling is done later.
-        .EXAMPLE
-        Get-MSIVersion -MSIPATH "C:\Temp\agent_x64.msi"
-    #>
-    param (
-        [parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [System.IO.FileInfo] $MSIPATH
-    )
-    if (!(Test-Path $MSIPATH.FullName)) {
-        throw "File '{0}' does not exist" -f $MSIPATH.FullName
-    }
-
-
-    # Load windows installer COM object
-    $installer = New-Object -ComObject WindowsInstaller.Installer
-
-    # Open MSI database
-    $database = $installer.OpenDatabase("$MSIPath", 0)
-    $query = "SELECT `Value` FROM `Property` WHERE `Property` = 'ProductVersion'"
-    $view = $database.OpenView($query)
-    $view.Execute()
-    $record = $view.Fetch()
-    $version = $record.StringData(1)
-    return $version
-
-    # Release COM objects
-    $record.Close()
-    $view.Close()
-    $database.Close()
-    [System.Runtime.Interopservices.Marshal]::ReleaseComObject($installer) | Out-Null
-
-}
-
 # Set static paths
 $esetPFPath = "C:\Program Files\ESET\ESET Security\"
 $esetPDPath = "C:\ProgramData\ESET\ESET Security\"
@@ -157,70 +111,54 @@ if ($choice.ToLower() -eq "y") {
     # Server
     $serverDest = "$HOME\Downloads\efsw_nt64.msi"
     Invoke-WebRequest -Uri $serverURI -OutFile $serverDest
-}
-else {
-    $agentDest = "$HOME\Downloads\agent_x64.msi"
-    $serverDest = "$HOME\Downloads\efsw_nt64.msi"
-}
 
-Write-Warning "Please type Y to attempt to find config and create directories. N to skip: "
-$choice = Read-Host
-if ($choice.ToLower() -eq "y") {
-# Get location of config
-    Write-Warning "Press enter to attempt to find exisiting config at: $agentPath"
-    Read-Host
-    try {
-        $configLoc = Get-ChildItem -path "$agentPath" -Recurse -Filter *.ini
-        $config = $configLoc[0].FullName
-    }
-    catch {
-        "Failed to find config file."
-    }
-    Write-Output "Agent MSI location: $agentDest"
-    Write-Output "Server MSI location: $serverDest"
-    Write-Warning "Press enter to attempt to extract version"
-    Read-Host
+    # Get location of config
+    $configLoc = Get-ChildItem -path $agentPath -Filter *.ini
+    $config = $configLoc[0].FullName
 
     try {
-        # Get MSI version
-        $agentLocation = "$agentDest"
-        $agentVersion = Get-MSIVersion -MSIPATH $agentLocation
-        Write-Warning "Agent version:$agentVersion"
+        $WindowsInstaller = New-Object -com WindowsInstaller.Installer
+        $Database = $WindowsInstaller.GetType().InvokeMember("OpenDatabase", "InvokeMethod", $Null, $WindowsInstaller, @($agentDest.FullName, 0))
+        $Query = "SELECT Value FROM Property WHERE Property = 'ProductVersion'"
+        $View = $database.GetType().InvokeMember("OpenView", "InvokeMethod", $Null, $Database, ($Query))
+        $View.GetType().InvokeMember("Execute", "InvokeMethod", $Null, $View, $Null) | Out-Null
+        $Record = $View.GetType().InvokeMember( "Fetch", "InvokeMethod", $Null, $View, $Null )
+        $Version = $Record.GetType().InvokeMember( "StringData", "GetProperty", $Null, $Record, 1 )
+        $agentVersion = $Version
+        return $Version
     } catch {
-        throw "Failed to get MSI file version."
+        throw "Failed to get MSI file version: {0}." -f $_
     }
 
-    Write-Warning "Press enter to attempt to extract version"
-    Read-Host
-
-
     try {
-        # Get MSI version
-        $serverLocation = "$serverDest"
-        $serverVersion = Get-MSIVersion -MSIPATH $serverLocation
-        Write-Warning "Server version:$serverVersion"
+        $WindowsInstaller = New-Object -com WindowsInstaller.Installer
+        $Database = $WindowsInstaller.GetType().InvokeMember("OpenDatabase", "InvokeMethod", $Null, $WindowsInstaller, @($serverDest.FullName, 0))
+        $Query = "SELECT Value FROM Property WHERE Property = 'ProductVersion'"
+        $View = $database.GetType().InvokeMember("OpenView", "InvokeMethod", $Null, $Database, ($Query))
+        $View.GetType().InvokeMember("Execute", "InvokeMethod", $Null, $View, $Null) | Out-Null
+        $Record = $View.GetType().InvokeMember( "Fetch", "InvokeMethod", $Null, $View, $Null )
+        $Version = $Record.GetType().InvokeMember( "StringData", "GetProperty", $Null, $Record, 1 )
+        $serverVersion = $Version
+        return $Version
     } catch {
-        throw "Failed to get MSI file version."
+        throw "Failed to get MSI file version: {0}." -f $_
     }
 
     # Create directories
     Write-Warning "Creating directories...."
     # Agent
     $newAgentDir = "$agentPath\$agentVersion"
-    $newAgentDir = $newAgentDir -replace(" ", "")
-    Write-Output "New agent directory: $newAgentDir"
     New-Item -Path $newAgentDir -ItemType Directory
     Copy-Item -Path $config -Destination $newAgentDir
     Copy-Item -Path $agentDest -Destination $newAgentDir
 
     # Server
     $newServerDir = "$serverPath\$serverVersion"
-    $newServerDir = $newServerDir -replace(" ", "")
-    Write-Output "New server directory: $newServerDir"
     New-Item -Path $newServerDir -ItemType Directory
     Copy-Item -Path $serverDest -Destination $newServerDir
-}
 
+
+}
 # Attempt to find latest MSI
 # Agent
 try {
@@ -290,9 +228,6 @@ if (Test-Path $esetPDPath) {
 else {
     Write-Warning "ESET Program Data directory not found, continuing"
 }
-
-Write-Warning "Press enter to install...."
-Read-Host
 
 # Install Agent
 Write-Warning "Installing ESET Agent...."
