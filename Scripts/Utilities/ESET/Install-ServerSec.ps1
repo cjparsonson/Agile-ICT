@@ -205,20 +205,41 @@ if ($choice.ToLower() -eq "y") {
 
     # Create directories
     Write-Warning "Creating directories...."
+
     # Agent
-    $newAgentDir = "$agentPath\$agentVersion"
+    $newAgentDir = "$agentPath\v$agentVersion"
     $newAgentDir = $newAgentDir -replace(" ", "")
     Write-Output "New agent directory: $newAgentDir"
-    New-Item -Path $newAgentDir -ItemType Directory
-    Copy-Item -Path $config -Destination $newAgentDir
-    Copy-Item -Path $agentDest -Destination $newAgentDir
+
+    try {
+        New-Item -Path $newAgentDir -ItemType Directory
+        Copy-Item -Path $config -Destination $newAgentDir
+        Copy-Item -Path $agentDest -Destination $newAgentDir
+    }
+    catch {
+        Write-Warning "An error occured."
+        Write-Warning $_
+    }
+
+    # Check for standard server directory path
+    if (!($serverPath | Select-String -Pattern 'Security')) {
+        $serverPath = "$serverPath Security"
+        Write-Output "AMENDED New server security path: $serverPath"
+    }
 
     # Server
-    $newServerDir = "$serverPath\$serverVersion"
-    $newServerDir = $newServerDir -replace(" ", "")
-    Write-Output "New server directory: $newServerDir"
-    New-Item -Path $newServerDir -ItemType Directory
-    Copy-Item -Path $serverDest -Destination $newServerDir
+    $serverVersionFormatted = "$serverVersion"
+    $serverVersionFormatted = $serverVersionFormatted -replace(" ", "")
+    $newServerDir = "$serverPath\v$serverVersionFormatted"
+    try {
+        Write-Output "New server directory: $newServerDir"
+        New-Item -Path $newServerDir -ItemType Directory
+        Copy-Item -Path $serverDest -Destination $newServerDir
+    }
+    catch {
+        Write-Warning "An error occured."
+        Write-Warning $_
+    }
 }
 
 # Attempt to find latest MSI
