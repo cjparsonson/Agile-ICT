@@ -216,6 +216,10 @@ if ($choice.ToLower() -eq "y") {
         Copy-Item -Path $config -Destination $newAgentDir
         Copy-Item -Path $agentDest -Destination $newAgentDir
     }
+    # Catch if directory already exists
+    catch [System.IO.IOException] {
+            Write-Warning $_.Exception.Message
+        }
     catch {
         Write-Warning "An error occured."
         Write-Warning $_
@@ -236,6 +240,11 @@ if ($choice.ToLower() -eq "y") {
         New-Item -Path $newServerDir -ItemType Directory
         Copy-Item -Path $serverDest -Destination $newServerDir
     }
+    # Catch if directory already exists
+    catch [System.IO.IOException] {
+            Write-Warning $_.Exception.Message
+        }
+
     catch {
         Write-Warning "An error occured."
         Write-Warning $_
