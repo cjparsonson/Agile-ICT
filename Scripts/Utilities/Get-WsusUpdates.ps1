@@ -81,8 +81,32 @@ function Get-FilteredUpdates {
         }
     }
     return $filteredUpdatesTable
-
 }
+function Out-Updates {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$false)]
+        [string]$sortBy,
+        [Parameter(Mandatory=$true)]
+        [array]$updates # An array of updates
+    )
+    # Sort updates if parameter is passed
+    if ($sortBy) {
+        $sortBy = $sortBy.ToLower()
+
+        switch ($sortBy) {
+            "neededcount" { $updatesTable | Sort-Object -Property NeededCount -Descending | Format-Table -AutoSize; break }
+            "issuperseded" { $updatesTable | Sort-Object -Property IsSuperseded -Descending | Format-Table -AutoSize ; break }
+            "classification" { $updatesTable | Sort-Object -Property Classification | Format-Table -AutoSize ; break }
+            Default { $updatesTable | Format-Table -AutoSize }
+        }
+    }
+    else {
+        $updatesTable | Format-Table -AutoSize
+    }
+}
+
+
 
 # Get WSUS server
 #$wsusServer = Get-WsusServer
@@ -91,20 +115,28 @@ function Get-FilteredUpdates {
 $updates = Get-Updates
 $updatesTable = Show-Updates -updates $updates
 
-# Sort updates if parameter is passed
-if ($sortBy) {
-    $sortBy = $sortBy.ToLower()
+# Sort updates
+Out-Updates -sortBy $sortBy -updates $updatesTable
 
-    switch ($sortBy) {
-        "neededcount" { $updatesTable | Sort-Object -Property NeededCount -Descending | Format-Table -AutoSize; break }
-        "issuperseded" { $updatesTable | Sort-Object -Property IsSuperseded -Descending | Format-Table -AutoSize ; break }
-        "classification" { $updatesTable | Sort-Object -Property Classification | Format-Table -AutoSize ; break }
-        Default { $updatesTable | Format-Table -AutoSize }
+# Ask user if they wish to decline superseded updates
+$decline = Read-Host "Decline superseded updates? (y/n)"
+if ($decline.ToLower() -eq "y") {
+    $toDecline = @()
+    foreach ($update in $updates) {
+        if ($update.UpdatesSupersedingThisUpdate -ne "None") {
+            $toDecline += $update
+        }
+    }
+    if (($toDecline.Count) -gt 0) {
+        foreach ($update in $toDecline) {
+            $title = $update.Update.Title
+            Write-Output "Declining: $title"
+        }
+        $toDecline | Deny-WsusUpdate
     }
 }
-else {
-    $updatesTable | Format-Table -AutoSize
-}
+
+
 
 $loop = $true
 while ($loop) {
@@ -128,9 +160,31 @@ while ($loop) {
                 Classification = $update.Classification
                 NeededCount = $update.ComputersNeedingThisUpdate
                 IsSuperseded = $superseded
+                Approved = $update.Approved
             }
             $toDisplay += $updateObject
         }
         $toDisplay | Format-Table -AutoSize
+
+        # Ask user if they wish to decline updates
+        $decline = Read-Host "Decline updates? (y/n)"
+        if ($decline.ToLower() -eq "y") {
+            foreach ($update in $filteredUpdatesTable) {
+                $title = $update.Update.Title
+                Write-Output "Declining: $title"
+            }
+            $filteredUpdatesTable | Deny-WsusUpdate
+
+        }
     }
+}
+
+# Invoke cleanup
+$cleanup = Read-Host "Intiate cleanup? (y/n)"
+if ($cleanup.ToLower() -eq "y") {
+    Write-Warning "Declining superseded updates, declining expired updates, cleaning up obsolete updates, and cleaning up unneeded content files"
+    Invoke-WsusServerCleanup -DeclineSupersededUpdates -DeclineExpiredUpdates -CleanupObsoleteUpdates -CleanupUnneededContentFiles -Confirm:$true
+}
+else {
+    Write-Output "Exiting"
 }
