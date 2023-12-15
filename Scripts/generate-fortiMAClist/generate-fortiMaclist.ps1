@@ -2,19 +2,19 @@
 .SYNOPSIS
 generate-fortiMAClist takes a list of MAC addresses and generates a Fortigate CLI script.
 .DESCRIPTION
-Takes a .txt list of MAC addresses and converts them to Fortigate CLI. 
+Takes a .txt list of MAC addresses and converts them to Fortigate CLI.
 .PARAMETER Path
-The filepath of the MAC list .txt or .csv file. 
+The filepath of the MAC list .txt or .csv file.
 .EXAMPLE
-generate-fortiMAClist -Path .\Devices.csv 
+generate-fortiMAClist -Path .\Devices.csv
 #>
 
 [CmdletBinding()]
 param (
-    # MAC list Filepath 
+    # MAC list Filepath
     [Parameter(Mandatory=$true, HelpMessage="Please specify filepath of MAC list.")]
     [string]
-    $Path 
+    $Path
 )
 
 # Get contents of MAC list
@@ -28,23 +28,26 @@ foreach ($line in $Content) {
     $match = $line | Select-String -Pattern "..:..:..:..:..:.."
     $MAC = $match.Matches.Value
     if ($MAC -ne "")
-    {  
+    {
         $MACString += "`"$MAC`" "
-    } 
-        
+    }
+
 }
 # Trim trailing whitespace
 
-$MACString = $MACString -replace '("")', '' 
+$MACString = $MACString -replace '("")', ''
 $MACString = $MACString.TrimEnd()
+
+# Get Fortigate name for Header
+$fortigateName = Read-Host "Enter Fortigate name or press enter to leave blank: "
 
 # Build script framework object
 $ScriptObject = [PSCustomObject]@{
     Header = "config firewall address`n`tedit `"Staff - device - MAC Addresses`""
-    Attributes = "`t`tconfig dynamic_mapping`n`t`tedit `"St_Lawrence_CE_Primary_850-3001`"-`"root`"`n`t`tset associated-interface `"any`"`n`t`tunset color"
+    Attributes = "`t`tconfig dynamic_mapping`n`t`tedit `"$fortigateName`"-`"root`"`n`t`tset associated-interface `"any`"`n`t`tunset color"
     MACList = "`t`tset macaddr $MACString"
     Footer = "`tnext"
-    Close = "end" 
+    Close = "end"
 }
 
 Write-Warning "Building CLI Script`n"
@@ -61,7 +64,9 @@ Read-Host
 Write-Warning "Writing to file..."
 # Write to file
 foreach ($property in $ScriptObject.psobject.Properties) {
-    $property.value | Out-File -FilePath .\test.txt -Append 
+    $property.value | Out-File -FilePath .\test.txt -Append
 }
 
 Write-Output "Output Fortigate CLI script to file complete"
+Write-Output "Press any key to exit"
+Read-Host
